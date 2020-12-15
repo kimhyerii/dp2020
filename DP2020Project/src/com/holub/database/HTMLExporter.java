@@ -3,12 +3,8 @@ package com.holub.database;
 import java.io.*;
 import java.util.Iterator;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-
 public class HTMLExporter implements Table.Exporter {
 	private final Writer out;
-	private int	width;
 	private int	height;
 	
 	public HTMLExporter(Writer out)
@@ -25,16 +21,12 @@ public class HTMLExporter implements Table.Exporter {
 
 	@Override
 	public void storeMetadata(String tableName, int width, int height, Iterator columnNames) throws IOException {
-		this.width = width;
-		int i = 0;
-		
 		out.write(tableName == null ? "<caption>anonymous</caption>" : "<caption>"+tableName+"</caption>" );
 		out.write("<thead><tr>");
 		
-		while (i < width) {
+		while (columnNames.hasNext()) {
 			Object datum = columnNames.next();
 			out.write("<th>" + datum.toString() + "</th>");
-			i++;
 		}
 		
 		out.write("</tr></thead>"
@@ -45,14 +37,16 @@ public class HTMLExporter implements Table.Exporter {
 
 	@Override
 	public void storeRow(Iterator data) throws IOException {
-		out.write("<tr>");
-		
-		while(data.hasNext()){
-			Object datum = data.next();
-			out.write("<td>" + datum.toString() + "</td>");
+		if(data.hasNext()) {
+			out.write("<tr>");
+			
+			while(data.hasNext()){
+				Object datum = data.next();
+				out.write("<td>" + datum.toString() + "</td>");
+			}
+	
+			out.write("</tr>");
 		}
-
-		out.write("</tr>");
 	}
 
 	@Override
