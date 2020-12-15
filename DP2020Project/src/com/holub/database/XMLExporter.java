@@ -15,7 +15,7 @@ public class XMLExporter implements Table.Exporter {
 	
 	@Override
 	public void startTable() throws IOException {
-		out.write("<?xml version=\"1.0\"?>");
+		out.write("<?xml version=\"1.0\"?>\n");
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class XMLExporter implements Table.Exporter {
 		if (tableName == null) {
 			this.tableName = "anonymous";
 		}
-		out.write("<" + tableName+ ">");
+		out.write("<" + tableName+ ">\n");
 		
 		while (columnNames.hasNext()) {			
 			Object datum = columnNames.next();
@@ -39,21 +39,21 @@ public class XMLExporter implements Table.Exporter {
 		Iterator headerIter = headers.iterator();
 
 		if(data.hasNext()) {
-			out.write("<data>");
+			out.write("<data>\n");
 			
 			while(data.hasNext()){
 				Object datum = data.next();
 				Object header = headerIter.next();
-				out.write("<" + header + ">" + datum.toString() + "</"+ header + ">");
+				out.write("<" + header + ">" + datum.toString() + "</"+ header + ">\n");
 			}
 			
-			out.write("</data>");
+			out.write("</data>\n");
 		}
 	}
 
 	@Override
 	public void endTable() throws IOException {
-		out.write("</" + tableName+ ">");
+		out.write("</" + tableName+ ">\n");
 	}
 	
 	public static class Test{ 	
