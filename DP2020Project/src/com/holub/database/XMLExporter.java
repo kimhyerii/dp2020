@@ -7,7 +7,7 @@ import java.util.Iterator;
 public class XMLExporter implements Table.Exporter {
 	private final Writer out;
 	private String tableName;
-	private ArrayList<String> headers = new ArrayList();
+	private ArrayList<String> headers = new ArrayList<String>();
 	
 	public XMLExporter (Writer out) {
 		this.out = out;
@@ -55,21 +55,4 @@ public class XMLExporter implements Table.Exporter {
 	public void endTable() throws IOException {
 		out.write("</" + tableName+ ">\n");
 	}
-	
-	public static class Test{ 	
-		public static void main( String[] args ) throws IOException
-		{	
-			Table people = TableFactory.create( "people",
-						   new String[]{ "First", "Last"		} );
-			people.insert( new String[]{ "Allen",	"Holub" 	} );
-			people.insert( new String[]{ "Ichabod",	"Crane" 	} );
-			people.insert( new String[]{ "Rip",		"VanWinkle" } );
-			people.insert( new String[]{ "Goldie",	"Locks" 	} );
-			
-			Writer out = new FileWriter("people.xml");
-			people.export(new XMLExporter(out));
-			out.close();
-		}
-	}
-
 }

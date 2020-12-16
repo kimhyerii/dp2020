@@ -53,6 +53,6 @@ public class HTMLExporter implements Table.Exporter {
 		out.write("</tbody>\n"
 				+ "</table>\n"
 				+ "</body>\n"
-				+ "</html>\n");
+				+ "</html>");
 	}
 }

@@ -6,9 +6,8 @@ import com.holub.tools.ArrayIterator;
 
 public class XMLImporter implements Table.Importer {
 	private BufferedReader  in;
-	private ArrayList<String> columnNames = new ArrayList();
+	private ArrayList<String> columnNames = new ArrayList<String>();
 	private String          tableName;
-	private Stack<String> stack;
 	private String check;
 	
 	public XMLImporter( Reader in )
@@ -44,13 +43,11 @@ public class XMLImporter implements Table.Importer {
 			}
 		}
 		
-		stack = new Stack<>();
 		in.reset();
 		in.readLine(); //<?xml version="1.0"?>
 		tableName = in.readLine().substring(1);
 		tableName = tableName.replace('<', ' ');
 		tableName = tableName.replace('>', ' ');
-		stack.push(tableName);
 		in.readLine();
 	}
 
@@ -118,16 +115,4 @@ public class XMLImporter implements Table.Importer {
 	@Override
 	public void endTable() throws IOException {
 	}
-	
-	public static class Test{ 	
-		public static void main( String[] args ) throws IOException
-		{				
-			Reader in = new FileReader("people.xml");
-			Table people = new ConcreteTable(new XMLImporter(in));
-			in.close();
-			
-			System.out.println(people);
-		}
-	}
-
 }
