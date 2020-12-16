@@ -459,7 +459,24 @@ import com.holub.tools.ArrayIterator;
 
 		// Create places to hold the result of the join and to hold
 		// iterators for each table involved in the join.
-
+		
+		if (requestedColumns == null) // SELECT * from (join)
+		{
+			ArrayList <String> cols = new ArrayList();
+			
+			for(Table e: allTables) {
+				Cursor c = e.rows();
+				for( int i = 0; i < c.columnCount(); i++) {
+					if (!cols.contains(c.columnName(i))) {
+						cols.add(c.columnName(i));
+					}
+				}
+			}
+			
+			String [] list = new String[cols.size()];
+			requestedColumns = cols.toArray(list);
+		}
+		
 		Table resultTable = new ConcreteTable(null, requestedColumns);
 		Cursor[] envelope = new Cursor[allTables.length];
 
